@@ -10,7 +10,7 @@ pub fn part1(input: &Vec<u64>) -> usize {
 
 #[aoc(day1, part2)]
 pub fn part2(input: &Vec<u64>) -> usize {
-    input.windows(4).filter(|a| a[0] + a[1] + a[2] < a[1] + a[2] +a[3]).count()
+    input.windows(4).filter(|a| a[0] < a[3]).count()
 }
 
 #[cfg(test)]
