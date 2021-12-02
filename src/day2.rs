@@ -9,6 +9,26 @@ pub enum Cmd {
     Up(i64),
 }
 
+pub struct Submarine {
+    depth: i64,
+    h_pos: i64,
+    aim: i64,
+}
+
+impl Submarine {
+    pub fn zero() -> Self {
+        Submarine{
+            depth: 0,
+            h_pos: 0,
+            aim: 0,
+        }
+    }
+
+    pub fn result(&self) -> i64 {
+        self.depth*self.h_pos
+    }
+}
+
 lazy_static! {
     static ref REGEX: Regex = Regex::new(r"([a-z]+) (\d+)").unwrap();
 }
@@ -34,35 +54,35 @@ pub fn input_generator(input: &str) -> Vec<Cmd>  {
 
 #[aoc(day2, part1)]
 pub fn part1(input: &Vec<Cmd>) -> i64 {
-    let (mut h, mut d) = (0, 0);
-
-    for c in input {
-        match c {
-            Cmd::Fwd(x) => h += x,
-            Cmd::Up(x) => d -= x,
-            Cmd::Down(x) => d += x,
-        };
-    };
-
-    h*d
+    input.iter().fold(
+        Submarine::zero(),
+        |mut s, c| {
+            match c {
+                Cmd::Fwd(x) => s.h_pos += x,
+                Cmd::Up(x) => s.depth -= x,
+                Cmd::Down(x) => s.depth += x,
+            };
+            s
+        }
+    ).result()
 }
 
 #[aoc(day2, part2)]
 pub fn part2(input: &Vec<Cmd>) -> i64 {
-    let (mut h, mut d, mut a) = (0, 0, 0);
-
-    for c in input {
-        match c {
-            Cmd::Fwd(x) => {
-                h += x;
-                d += a*x;
-            },
-            Cmd::Up(x) => a -= x,
-            Cmd::Down(x) => a += x,
-        };
-    };
-
-    h*d
+    input.iter().fold(
+        Submarine::zero(),
+        |mut s, c| {
+            match c {
+                Cmd::Fwd(x) => {
+                    s.h_pos += x;
+                    s.depth += s.aim * x;
+                },
+                Cmd::Up(x) => s.aim -= x,
+                Cmd::Down(x) => s.aim += x,
+            };
+            s
+        }
+    ).result()
 }
 
 #[cfg(test)]
