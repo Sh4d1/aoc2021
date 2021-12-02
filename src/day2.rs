@@ -9,6 +9,7 @@ pub enum Cmd {
     Up(i64),
 }
 
+#[derive(Default)]
 pub struct Submarine {
     depth: i64,
     h_pos: i64,
@@ -16,16 +17,8 @@ pub struct Submarine {
 }
 
 impl Submarine {
-    pub fn zero() -> Self {
-        Submarine{
-            depth: 0,
-            h_pos: 0,
-            aim: 0,
-        }
-    }
-
     pub fn result(&self) -> i64 {
-        self.depth*self.h_pos
+        self.depth * self.h_pos
     }
 }
 
@@ -55,8 +48,8 @@ pub fn input_generator(input: &str) -> Vec<Cmd>  {
 #[aoc(day2, part1)]
 pub fn part1(input: &Vec<Cmd>) -> i64 {
     input.iter().fold(
-        Submarine::zero(),
-        |mut s, c| {
+        Default::default(),
+        |mut s: Submarine, c| {
             match c {
                 Cmd::Fwd(x) => s.h_pos += x,
                 Cmd::Up(x) => s.depth -= x,
@@ -70,8 +63,8 @@ pub fn part1(input: &Vec<Cmd>) -> i64 {
 #[aoc(day2, part2)]
 pub fn part2(input: &Vec<Cmd>) -> i64 {
     input.iter().fold(
-        Submarine::zero(),
-        |mut s, c| {
+        Default::default(),
+        |mut s: Submarine, c| {
             match c {
                 Cmd::Fwd(x) => {
                     s.h_pos += x;
