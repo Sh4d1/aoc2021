@@ -6,18 +6,23 @@ pub fn input_generator(input: &str) -> Vec<(Vec<String>, Vec<String>)> {
         |l| 
         {
             let mut split = l.split("|");
-            let first = split.next().unwrap();
-            let last = split.next().unwrap();
-            (first.split_whitespace().map(|s| {
-                let mut a: Vec<_> = s.chars().collect(); 
-                a.sort();
-                a.iter().collect()}).collect()
-             , last.split_whitespace().map(|s| {
-                let mut a: Vec<_> = s.chars().collect(); 
-                a.sort();
-                a.iter().collect()}
-             ).collect()
-            )
+            let first = split.next().unwrap().split_whitespace().map(
+                |s| 
+                {
+                    let mut a: Vec<_> = s.chars().collect();
+                    a.sort();
+                    a.iter().collect()
+                }
+            ).collect();
+            let last = split.next().unwrap().split_whitespace().map(
+                |s| 
+                {
+                    let mut a: Vec<_> = s.chars().collect();
+                    a.sort();
+                    a.iter().collect()
+                }
+            ).collect();
+            (first, last)
         }
     ).collect()
 }
@@ -25,21 +30,28 @@ pub fn input_generator(input: &str) -> Vec<(Vec<String>, Vec<String>)> {
 pub fn get_n(input: &Vec<String>, output: &Vec<String>) -> usize {
     let mut code = HashMap::new();
     let mut code_inv = HashMap::new();
-    let mut all = input.clone();
-    all.append(&mut output.clone());
-    for i in all.iter().filter(|s| s.len() == 2 || s.len() == 3 || s.len() == 4 || s.len() == 7) {
+    for i in input.iter().filter(|s| s.len() != 5 && s.len() != 6) {
         match i.len() {
-            2 => code.insert(i, 1),
-            3 => code.insert(i, 7),
-            4 => code.insert(i, 4),
-            7 => code.insert(i, 8),
+            2 => {
+                code.insert(i, 1);
+                code_inv.insert(1, i);
+            },
+            3 => {
+                code.insert(i, 7);
+                code_inv.insert(7, i);
+            },
+            4 => {
+                code.insert(i, 4);
+                code_inv.insert(4, i);
+            },
+            7 => {
+                code.insert(i, 8);
+                code_inv.insert(8, i);
+            },
             _ => unreachable!(),
         };
     }
-    for (k,v) in code.iter() {
-        code_inv.insert(v.clone(), k.clone());
-    }
-    for i in all.iter().filter(|s| s.len() != 2 && s.len() != 3 && s.len() != 4 && s.len() != 7) {
+    for i in input.iter().filter(|s| s.len() == 5 || s.len() == 6) {
         match i.len() {
             6 => {
                 if code_inv.get(&4).unwrap().chars().all(|s| i.contains(s)) {
@@ -60,9 +72,6 @@ pub fn get_n(input: &Vec<String>, output: &Vec<String>) -> usize {
                 }
             },
             _ => unreachable!(),
-        }
-        if code.len() == 10 {
-            break;
         }
     }
 
