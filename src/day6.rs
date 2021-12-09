@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 #[aoc_generator(day6)]
 pub fn input_generator(input: &str) -> HashMap<u64, u64> {
-    input.lines().next().unwrap().split(",").fold(HashMap::new(), |mut acc, c| {
+    input.lines().next().unwrap().split(',').fold(HashMap::new(), |mut acc, c| {
         *acc.entry(c.parse::<u64>().unwrap()).or_insert(0) += 1;
         acc
     })

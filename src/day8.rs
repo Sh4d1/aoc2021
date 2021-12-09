@@ -5,12 +5,12 @@ pub fn input_generator(input: &str) -> Vec<(Vec<String>, Vec<String>)> {
     input.lines().map(
         |l| 
         {
-            let mut split = l.split("|");
+            let mut split = l.split('|');
             let first = split.next().unwrap().split_whitespace().map(
                 |s| 
                 {
                     let mut a: Vec<_> = s.chars().collect();
-                    a.sort();
+                    a.sort_unstable();
                     a.iter().collect()
                 }
             ).collect();
@@ -18,7 +18,7 @@ pub fn input_generator(input: &str) -> Vec<(Vec<String>, Vec<String>)> {
                 |s| 
                 {
                     let mut a: Vec<_> = s.chars().collect();
-                    a.sort();
+                    a.sort_unstable();
                     a.iter().collect()
                 }
             ).collect();
@@ -27,7 +27,7 @@ pub fn input_generator(input: &str) -> Vec<(Vec<String>, Vec<String>)> {
     ).collect()
 }
 
-pub fn get_n(input: &Vec<String>, output: &Vec<String>) -> usize {
+pub fn get_n(input: &[String], output: &[String]) -> usize {
     let mut code = HashMap::new();
     let mut code_inv = HashMap::new();
     for i in input.iter().filter(|s| s.len() != 5 && s.len() != 6) {
@@ -83,7 +83,7 @@ pub fn get_n(input: &Vec<String>, output: &Vec<String>) -> usize {
 }
 
 #[aoc(day8, part1)]
-pub fn part1(input: &Vec<(Vec<String>, Vec<String>)>) -> usize {
+pub fn part1(input: &[(Vec<String>, Vec<String>)]) -> usize {
     input.iter().fold(0, |acc, (_, o)| {
         acc + o.iter().fold(0, |acc, s| {
             if s.len() == 2 || s.len() == 3 || s.len() == 4 || s.len() == 7 {
@@ -96,7 +96,7 @@ pub fn part1(input: &Vec<(Vec<String>, Vec<String>)>) -> usize {
 }
 
 #[aoc(day8, part2)]
-pub fn part2(input: &Vec<(Vec<String>, Vec<String>)>) -> usize {
+pub fn part2(input: &[(Vec<String>, Vec<String>)]) -> usize {
     input.iter().fold(0, |acc, (i,o)| {
         acc + get_n(i, o)
     })

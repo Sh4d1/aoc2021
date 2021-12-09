@@ -4,12 +4,12 @@ pub fn input_generator(input: &str) -> Vec<u64> {
 }
 
 #[aoc(day1, part1)]
-pub fn part1(input: &Vec<u64>) -> usize {
+pub fn part1(input: &[u64]) -> usize {
     input.windows(2).filter(|a| a[0] < a[1]).count()
 }
 
 #[aoc(day1, part2)]
-pub fn part2(input: &Vec<u64>) -> usize {
+pub fn part2(input: &[u64]) -> usize {
     input.windows(4).filter(|a| a[0] < a[3]).count()
 }
 

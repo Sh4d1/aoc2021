@@ -92,7 +92,7 @@ impl Diagram {
         });
         Diagram{
             grid: Array2::from_elem((max_x+1, max_y+1), 0),
-            vents: vents,
+            vents,
         }
     }
 

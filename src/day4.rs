@@ -15,12 +15,12 @@ pub struct Board {
 impl Bingo {
     pub fn new(input: &str) -> Self {
         let mut lines = input.lines();
-        let draw: Vec<u64> = lines.next().unwrap().split(",").map(|d| d.parse().unwrap()).collect();
+        let draw: Vec<u64> = lines.next().unwrap().split(',').map(|d| d.parse().unwrap()).collect();
         lines.next();
 
         let lines: Vec<&str> = lines.collect::<Vec<&str>>().into_iter().filter(|l| !l.is_empty()).collect();
         Bingo{
-            draw: draw,
+            draw,
             boards: lines.chunks(5).map(|l| {
                 let rows: Vec<Vec<(u64, bool)>> = l.iter().map(|l| l.split_whitespace().map(|d| (d.parse().unwrap(), false)).collect()).collect();
                 Board{

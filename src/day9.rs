@@ -9,10 +9,8 @@ impl Heightmap {
     fn is_local_min(&self, x: usize, y: usize) -> bool {
         for xi in std::cmp::max(0, x as i32 - 1) as usize ..=std::cmp::min(self.grid.shape()[0] as i32 - 1, x as i32 + 1) as usize {
             for yi in std::cmp::max(0, y as i32 - 1) as usize..=std::cmp::min(self.grid.shape()[1] as i32 - 1, y as i32 + 1) as usize {
-                if (xi == x || yi == y) && (xi != x || yi != y) {
-                    if self.grid.get((x, y)).unwrap() >= self.grid.get((xi, yi)).unwrap() {
-                        return false;
-                    }
+                if (xi == x || yi == y) && (xi != x || yi != y) && self.grid.get((x, y)).unwrap() >= self.grid.get((xi, yi)).unwrap() {
+                    return false;
                 }
             }
         }
@@ -50,7 +48,7 @@ impl Heightmap {
             }
         }
         basins.sort_unstable_by(|a, b| b.cmp(a));
-        basins.iter().take(3).fold(1, |acc, v| acc*v)
+        basins.iter().take(3).product()
     }
 
 }

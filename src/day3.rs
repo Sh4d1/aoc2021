@@ -1,4 +1,4 @@
-fn most_least(input: &Vec<String>, i: usize) -> (char, char) {
+fn most_least(input: &[String], i: usize) -> (char, char) {
     if 2 * input.iter().filter(|&s| s.chars().nth(i).unwrap() == '0').count() > input.len() {
         ('0', '1')
     } else {
@@ -12,7 +12,7 @@ pub fn input_generator(input: &str) -> Vec<String> {
 }
 
 #[aoc(day3, part1)]
-pub fn part1(input: &Vec<String>) -> usize {
+pub fn part1(input: &[String]) -> usize {
     let mut gr = String::new();
     let mut er = String::new();
     
@@ -26,9 +26,9 @@ pub fn part1(input: &Vec<String>) -> usize {
 }
 
 #[aoc(day3, part2)]
-pub fn part2(input: &Vec<String>) -> usize {
-    let mut og = input.clone();
-    let mut cs = input.clone();
+pub fn part2(input: &[String]) -> usize {
+    let mut og = input.to_owned();
+    let mut cs = input.to_owned();
 
     for i in 0..(input[0].len()) {
         if og.len() != 1 {

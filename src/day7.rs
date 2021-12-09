@@ -1,9 +1,9 @@
 #[aoc_generator(day7)]
 pub fn input_generator(input: &str) -> Vec<isize> {
-    input.split(",").map(|l| l.parse::<isize>().unwrap()).collect()
+    input.split(',').map(|l| l.parse::<isize>().unwrap()).collect()
 }
 
-pub fn min_cost<F: Fn(isize, isize) -> isize>(input: &Vec<isize>, cost_fn: F) -> isize {
+pub fn min_cost<F: Fn(isize, isize) -> isize>(input: &[isize], cost_fn: F) -> isize {
     let x_min = input.iter().min().unwrap();
     let x_max = input.iter().max().unwrap();
 
@@ -14,7 +14,7 @@ pub fn min_cost<F: Fn(isize, isize) -> isize>(input: &Vec<isize>, cost_fn: F) ->
 }
 
 #[aoc(day7, part1)]
-pub fn part1(input: &Vec<isize>) -> isize {
+pub fn part1(input: &[isize]) -> isize {
     min_cost(input, 
         |x1, x2| 
         (x2 - x1).abs()
@@ -22,7 +22,7 @@ pub fn part1(input: &Vec<isize>) -> isize {
 }
 
 #[aoc(day7, part2)]
-pub fn part2(input: &Vec<isize>) -> isize {
+pub fn part2(input: &[isize]) -> isize {
     min_cost(input, 
         |x1, x2| 
         {

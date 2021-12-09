@@ -46,7 +46,7 @@ pub fn input_generator(input: &str) -> Vec<Cmd>  {
 }
 
 #[aoc(day2, part1)]
-pub fn part1(input: &Vec<Cmd>) -> i64 {
+pub fn part1(input: &[Cmd]) -> i64 {
     input.iter().fold(
         Default::default(),
         |mut s: Submarine, c| {
@@ -61,7 +61,7 @@ pub fn part1(input: &Vec<Cmd>) -> i64 {
 }
 
 #[aoc(day2, part2)]
-pub fn part2(input: &Vec<Cmd>) -> i64 {
+pub fn part2(input: &[Cmd]) -> i64 {
     input.iter().fold(
         Default::default(),
         |mut s: Submarine, c| {
