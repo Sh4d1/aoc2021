@@ -1,3 +1,4 @@
+#![warn(clippy::all)]
 #![feature(drain_filter)]
 #![feature(destructuring_assignment)]
 #[macro_use]
