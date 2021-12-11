@@ -10,18 +10,17 @@ impl Map {
         for o in self.octo.iter_mut() {
             o.0 += 1;
         }
-        for ((x, y), o) in self.octo.clone().indexed_iter() {
-            if o.0 > 9 {
+        for ((x, y), _) in self.octo.clone().indexed_iter() {
+            if self.octo.get((x, y)).unwrap().0 > 9 {
                 self.flash(x, y);
             }
         }
     }
     fn flash(&mut self, x: usize, y: usize) {
         let mut o = self.octo.get_mut((x, y)).unwrap();
-        // Why is this if needed??
-        if o.0 <= 9 {
-            return;
-        }
+        // Why was this if needed?? (see https://github.com/Sh4d1/aoc2021/blob/fad53ba597a13a3c8ebbe30d73a3e24163a5094a/src/day11.rs#L21)
+        // because the `for ((x, y), o) in self.octo.clone().indexed_iter()` loop above had outaded
+        // data (zzz)
         o.1 += 1;
         o.0 = 0;
         for xi in std::cmp::max(0, x as i32 - 1) as usize
