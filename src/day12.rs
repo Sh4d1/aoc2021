@@ -6,32 +6,33 @@ pub struct Map {
 }
 
 impl Map {
-    fn visit_all_from(&self, t: Type, current: Vec<Type>, s: bool) -> Vec<Vec<Type>> {
-        let start = self.nodes.get(&t).unwrap().clone();
-        let mut res = vec![];
-
-        for n in start.edges {
-            let mut new_s = s;
-            match n {
-                Type::Start => continue,
-                Type::End => {
-                    res.push(current.clone());
-                    continue;
-                }
-                Type::Small(_) if current.contains(&n) => {
-                    if !s {
-                        new_s = true;
-                    } else {
-                        continue;
+    fn n_path_from(&self, t: Type, current: Vec<Type>, s: bool) -> usize {
+        self.nodes
+            .get(&t)
+            .unwrap()
+            .edges
+            .iter()
+            .map(|n| {
+                let mut new_s = s;
+                match n {
+                    Type::Start => return 0,
+                    Type::End => {
+                        return 1;
                     }
-                }
-                _ => (),
-            }
-            let mut new_current = current.clone();
-            new_current.push(n.clone());
-            res.append(&mut self.visit_all_from(n, new_current, new_s))
-        }
-        res
+                    Type::Small(_) if current.contains(n) => {
+                        if !s {
+                            new_s = true;
+                        } else {
+                            return 0;
+                        }
+                    }
+                    _ => (),
+                };
+                let mut new_current = current.clone();
+                new_current.push(n.clone());
+                self.n_path_from(n.clone(), new_current, new_s)
+            })
+            .sum()
     }
 }
 
@@ -81,12 +82,12 @@ pub fn input_generator(input: &str) -> Map {
 
 #[aoc(day12, part1)]
 pub fn part1(input: &Map) -> usize {
-    input.visit_all_from(Type::Start, vec![], true).len()
+    input.n_path_from(Type::Start, vec![], true)
 }
 
 #[aoc(day12, part2)]
 pub fn part2(input: &Map) -> usize {
-    input.visit_all_from(Type::Start, vec![], false).len()
+    input.n_path_from(Type::Start, vec![], false)
 }
 
 #[cfg(test)]
