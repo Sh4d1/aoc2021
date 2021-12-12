@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 
 pub struct Map {
-    nodes: HashMap<Type, Node>,
+    nodes: HashMap<Type, HashSet<Type>>,
 }
 
 impl Map {
@@ -10,7 +10,6 @@ impl Map {
         self.nodes
             .get(&t)
             .unwrap()
-            .edges
             .iter()
             .map(|n| {
                 let mut new_s = s;
@@ -44,14 +43,9 @@ pub enum Type {
     Big(String),
 }
 
-#[derive(Clone)]
-pub struct Node {
-    edges: HashSet<Type>,
-}
-
 #[aoc_generator(day12)]
 pub fn input_generator(input: &str) -> Map {
-    let mut nodes: HashMap<Type, Node> = HashMap::new();
+    let mut nodes: HashMap<Type, HashSet<Type>> = HashMap::new();
     input.lines().for_each(|l| {
         let nodes_type: Vec<Type> = l
             .split('-')
@@ -64,17 +58,11 @@ pub fn input_generator(input: &str) -> Map {
             .collect();
         nodes
             .entry(nodes_type[0].clone())
-            .or_insert(Node {
-                edges: HashSet::new(),
-            })
-            .edges
+            .or_default()
             .insert(nodes_type[1].clone());
         nodes
             .entry(nodes_type[1].clone())
-            .or_insert(Node {
-                edges: HashSet::new(),
-            })
-            .edges
+            .or_default()
             .insert(nodes_type[0].clone());
     });
     Map { nodes }
