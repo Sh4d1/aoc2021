@@ -24,8 +24,8 @@ impl Fish {
             P(l, r) => l.try_split() || r.try_split(),
             N(n) if *n >= 10 => {
                 *self = P(
-                    Box::new(N((*n as f64 / 2.0).floor() as usize)),
-                    Box::new(N((*n as f64 / 2.0).ceil() as usize)),
+                    box N((*n as f64 / 2.0).floor() as usize),
+                    box N((*n as f64 / 2.0).ceil() as usize),
                 );
                 true
             }
@@ -86,8 +86,8 @@ fn parse_fish(input: &str) -> Fish {
         _ => (),
     });
     Fish::P(
-        Box::new(parse_fish(&input[1..p])),
-        Box::new(parse_fish(&input[p + 1..input.len() - 1])),
+        box parse_fish(&input[1..p]),
+        box parse_fish(&input[p + 1..input.len() - 1]),
     )
 }
 
@@ -101,12 +101,8 @@ pub fn part1(input: &[Fish]) -> usize {
     input[2..]
         .iter()
         .fold(
-            P(
-                Box::new(input[0].clone().reduce()),
-                Box::new(input[1].clone().reduce()),
-            )
-            .reduce(),
-            |acc, e| P(Box::new(acc), Box::new(e.clone().reduce())).reduce(),
+            P(box input[0].clone().reduce(), box input[1].clone().reduce()).reduce(),
+            |acc, e| P(box acc, box e.clone().reduce()).reduce(),
         )
         .magnitude()
 }
@@ -120,7 +116,7 @@ pub fn part2(input: &[Fish]) -> usize {
                 continue;
             }
             max = max.max(
-                P(Box::new(input[i].clone()), Box::new(input[j].clone()))
+                P(box input[i].clone(), box input[j].clone())
                     .reduce()
                     .magnitude(),
             );

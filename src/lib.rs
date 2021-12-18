@@ -2,6 +2,7 @@
 #![feature(drain_filter)]
 #![feature(destructuring_assignment)]
 #![feature(box_patterns)]
+#![feature(box_syntax)]
 #[macro_use]
 extern crate aoc_runner_derive;
 
