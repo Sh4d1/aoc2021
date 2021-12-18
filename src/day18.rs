@@ -100,10 +100,10 @@ pub fn input_generator(input: &str) -> Vec<Fish> {
 pub fn part1(input: &[Fish]) -> usize {
     input[2..]
         .iter()
-        .fold(
-            P(box input[0].clone().reduce(), box input[1].clone().reduce()).reduce(),
-            |acc, e| P(box acc, box e.clone().reduce()).reduce(),
-        )
+        .fold(P(box input[0].clone(), box input[1].clone()), |acc, e| {
+            P(box acc.reduce(), box e.clone())
+        })
+        .reduce()
         .magnitude()
 }
 
